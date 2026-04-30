@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Election Guide Assistant — Learn How Elections Work</title>
+  <meta name="description" content="An interactive, non-partisan guide that explains the election process step by step. Learn about voter registration, campaigning, voting, and more." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="index.css" />
+</head>
+<body>
+
+  <!-- ─── Animated background blobs ─── -->
+  <div class="bg-blobs" aria-hidden="true">
+    <span class="blob blob--1"></span>
+    <span class="blob blob--2"></span>
+    <span class="blob blob--3"></span>
+  </div>
+
+  <!-- ─── Main container ─── -->
+  <div id="app" class="app">
+
+    <!-- Header -->
+    <header class="header" id="header">
+      <div class="header__icon">🗳️</div>
+      <div class="header__text">
+        <h1>Election Guide Assistant</h1>
+        <p>Your friendly, non-partisan election explainer</p>
+      </div>
+    </header>
+
+    <!-- Chat area -->
+    <main class="chat" id="chat-area" role="log" aria-label="Conversation">
+      <!-- Messages are injected here -->
+    </main>
+
+    <!-- Quick-reply chips -->
+    <div class="chips-tray" id="chips-tray">
+      <!-- Chips injected here -->
+    </div>
+
+    <!-- Free-text input -->
+    <form class="input-bar" id="input-form" autocomplete="off">
+      <input
+        id="user-input"
+        class="input-bar__field"
+        type="text"
+        placeholder="Type your question…"
+        aria-label="Type your question"
+      />
+      <button id="send-btn" class="input-bar__send" type="submit" aria-label="Send message">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
+    </form>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
