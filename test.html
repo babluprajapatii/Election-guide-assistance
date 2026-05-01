@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Election Guide — Test Runner</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: #0c0e1a;
+      color: #e8e8f0;
+      padding: 24px;
+      line-height: 1.6;
+    }
+    h1 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, #a29bfe, #00cec9);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .subtitle { font-size: 0.85rem; color: #9a9ab5; margin-bottom: 24px; }
+    #test-results {
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      font-size: 0.82rem;
+      white-space: pre-wrap;
+      padding: 20px;
+      background: rgba(18, 21, 40, .85);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 14px;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+    .test-pass { color: #00b894; }
+    .test-fail { color: #ff6b6b; font-weight: 600; }
+    .test-header { color: #a29bfe; font-weight: 700; margin-top: 8px; }
+    .test-info { color: #9a9ab5; }
+
+    /* Hide the app UI during testing */
+    .app { display: none !important; }
+    .bg-blobs { display: none !important; }
+    .skip-link { display: none !important; }
+  </style>
+</head>
+<body>
+  <h1>🧪 Election Guide — Test Suite</h1>
+  <p class="subtitle">Automated tests for functionality, security, and accessibility</p>
+  <div id="test-results"></div>
+
+  <!-- Load the app (hidden) so we can test its functions and DOM -->
+  <a href="#user-input" class="skip-link" id="skip-link">Skip to chat input</a>
+  <div class="bg-blobs" aria-hidden="true">
+    <span class="blob blob--1"></span>
+    <span class="blob blob--2"></span>
+    <span class="blob blob--3"></span>
+  </div>
+  <div id="app" class="app">
+    <header class="header" id="header">
+      <div class="header__icon" aria-hidden="true">🗳️</div>
+      <div class="header__text">
+        <h1>Election Guide Assistant</h1>
+        <p>Your friendly, non-partisan election explainer</p>
+      </div>
+    </header>
+    <main class="chat" id="chat-area" role="log" aria-label="Conversation" aria-live="polite"></main>
+    <div id="sr-announcements" class="sr-only" aria-live="assertive" aria-atomic="true"></div>
+    <div class="chips-tray" id="chips-tray" role="group" aria-label="Quick reply options"></div>
+    <form class="input-bar" id="input-form" autocomplete="off">
+      <label for="user-input" class="sr-only">Type your election question</label>
+      <input id="user-input" class="input-bar__field" type="text" placeholder="Type your question…" aria-label="Type your question" maxlength="500" />
+      <button id="send-btn" class="input-bar__send" type="submit" aria-label="Send message">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+        </svg>
+      </button>
+    </form>
+  </div>
+
+  <!-- DOMPurify -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.2.7/purify.min.js"
+          integrity="sha512-ckdBFJnxMVBsRP6ILoXGNdSGHOEhzRGy1fVLSmqkNWR9JBdAXzWqJbpuqBGfGHhfMCHU56kYjJwsPKjWbMHOA=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer"></script>
+
+  <!-- App data & logic -->
+  <script src="election-data.js"></script>
+  <script src="app.js"></script>
+
+  <!-- Test suite (runs after app loads) -->
+  <script src="tests.js"></script>
+</body>
+</html>

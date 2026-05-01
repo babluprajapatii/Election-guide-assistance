@@ -5,12 +5,42 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Election Guide Assistant — Learn How Elections Work</title>
   <meta name="description" content="An interactive, non-partisan guide that explains the election process step by step. Learn about voter registration, campaigning, voting, and more." />
+
+  <!-- ─── Security: Content Security Policy ───
+       CSP is best delivered via HTTP headers in production.
+       The policy below is documented for deployment reference:
+       default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://www.googletagmanager.com https://www.google-analytics.com https://translate.google.com https://translate.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://translate.googleapis.com https://www.gstatic.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://translate.google.com https://www.gstatic.com; connect-src 'self' https://www.google-analytics.com https://translate.googleapis.com; frame-src https://translate.google.com; object-src 'none'; base-uri 'self';
+  -->
+
+  <!-- ─── Google Fonts (Google Service #1) ─── -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- ─── DNS prefetch for analytics ─── -->
+  <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+
+  <!-- ─── Stylesheet ─── -->
   <link rel="stylesheet" href="index.css" />
+
+  <!-- ─── Google Analytics / gtag.js (Google Service #2) ─── -->
+  <!-- Replace G-XXXXXXXXXX with your actual GA4 Measurement ID -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX', {
+      /* Respect user privacy — anonymise IP and disable ad personalisation */
+      anonymize_ip: true,
+      allow_google_signals: false
+    });
+  </script>
 </head>
 <body>
+
+  <!-- ─── Accessibility: Skip link ─── -->
+  <a href="#user-input" class="skip-link" id="skip-link">Skip to chat input</a>
 
   <!-- ─── Animated background blobs ─── -->
   <div class="bg-blobs" aria-hidden="true">
@@ -24,38 +54,70 @@
 
     <!-- Header -->
     <header class="header" id="header">
-      <div class="header__icon">🗳️</div>
+      <div class="header__icon" aria-hidden="true">🗳️</div>
       <div class="header__text">
         <h1>Election Guide Assistant</h1>
         <p>Your friendly, non-partisan election explainer</p>
       </div>
+      <!-- ─── Google Translate (Google Service #3) ─── -->
+      <div id="google-translate-widget" class="translate-widget" aria-label="Translate this page">
+        <div id="google_translate_element"></div>
+      </div>
     </header>
 
     <!-- Chat area -->
-    <main class="chat" id="chat-area" role="log" aria-label="Conversation">
+    <main class="chat" id="chat-area" role="log" aria-label="Conversation" aria-live="polite">
       <!-- Messages are injected here -->
     </main>
 
+    <!-- Screen reader announcements (visually hidden) -->
+    <div id="sr-announcements" class="sr-only" aria-live="assertive" aria-atomic="true"></div>
+
     <!-- Quick-reply chips -->
-    <div class="chips-tray" id="chips-tray">
+    <div class="chips-tray" id="chips-tray" role="group" aria-label="Quick reply options">
       <!-- Chips injected here -->
     </div>
 
     <!-- Free-text input -->
     <form class="input-bar" id="input-form" autocomplete="off">
+      <label for="user-input" class="sr-only">Type your election question</label>
       <input
         id="user-input"
         class="input-bar__field"
         type="text"
         placeholder="Type your question…"
         aria-label="Type your question"
+        maxlength="500"
+        autocomplete="off"
       />
       <button id="send-btn" class="input-bar__send" type="submit" aria-label="Send message">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <line x1="22" y1="2" x2="11" y2="13"/>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+        </svg>
       </button>
     </form>
   </div>
 
+  <!-- ─── Security: DOMPurify for XSS protection ─── -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.2.7/purify.min.js"
+          crossorigin="anonymous"></script>
+
+  <!-- ─── Application data & logic ─── -->
+  <script src="election-data.js"></script>
   <script src="app.js"></script>
+
+  <!-- ─── Google Translate Init (Google Service #3) ─── -->
+  <script>
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'en',
+        includedLanguages: 'en,hi,es,fr,de,zh-CN,ar,pt,ja,ko',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+        autoDisplay: false
+      }, 'google_translate_element');
+    }
+  </script>
+  <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 </html>
